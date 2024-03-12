@@ -15,6 +15,7 @@ find_package(uvinterfaces REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 include_directories(include/uvplanner)
 

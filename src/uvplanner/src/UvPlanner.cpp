@@ -19,9 +19,9 @@ UvPlanner::UvPlanner():Node("uvplanner_node")
         RCLCPP_INFO(this->get_logger(),"[%f,%f]",solver.path.at(i).x(),solver.path.at(i).y());
     }*/
     subMap = this->create_subscription<uvinterfaces::msg::UvMap>("map",1,
-        std::bind(subMapCallback,std::placeholders::_1));
+        std::bind(&UvPlanner::subMapCallback,this,std::placeholders::_1));
     srvPath = this->create_service<uvinterfaces::srv::UvPathplan>("path",
-        std::bind(srvSolveCallback,std::placeholders::_1,std::placeholders::_2));
+        std::bind(&UvPlanner::srvSolveCallback,this,std::placeholders::_1,std::placeholders::_2));
 }
 
 void UvPlanner::subMapCallback(const uvinterfaces::msg::UvMap::SharedPtr msg)
