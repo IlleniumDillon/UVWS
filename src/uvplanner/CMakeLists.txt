@@ -18,8 +18,10 @@ find_package(uvinterfaces REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(OpenCV REQUIRED)
 
 include_directories(include/uvplanner)
+include_directories(${OpenCV_INCLUDE_DIRS}) 
 
 # file(GLOB SOURCEFILE src/AStar.cpp)
 set(SOURCEFILE src/AStar.cpp src/UvPlanner.cpp src/uvplanner_node.cpp)
@@ -32,6 +34,7 @@ ament_target_dependencies(
   "std_msgs"
   "geometry_msgs"
   "nav_msgs"
+  "OpenCV"
 )
 
 install(TARGETS

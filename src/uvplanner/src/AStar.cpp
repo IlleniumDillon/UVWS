@@ -1,4 +1,5 @@
 #include "AStar.hpp"
+#include "opencv2/opencv.hpp"
 
 using namespace UV;
 
@@ -49,6 +50,8 @@ bool AStar::solve(Status start, Status goal)
 {
     Vector3i startIndex = cvtStatus2Index(start);
     Vector3i endIndex   = cvtStatus2Index(goal);
+
+    std::cout << startIndex << endIndex << std::endl;
 
     AStarNodePtr startPtr = new AStarNode(startIndex);
     AStarNodePtr endPtr   = new AStarNode(endIndex);
@@ -141,9 +144,27 @@ bool AStar::solve(Status start, Status goal)
 
 double UV::AStar::getHeu(Vector3i p1, Vector3i p2)
 {
-    Vector3d delta = Vector3d(p1.x()-p2.x(),p1.y()-p2.y(),p1.z()-p2.z());
-    double heu = sqrt(delta.x()*delta.x()+delta.y()*delta.y()+delta.z()*delta.z());
-    return heu;
+    /*Vector3d delta = Vector3d(p1.x()-p2.x(),p1.y()-p2.y(),p1.z()-p2.z());
+    double heu = sqrt(delta.x()*delta.x()+delta.y()*delta.y()+delta.z()*delta.z());*/
+    double dx = abs((double)(p1.x()-p2.x()));
+    double dy = abs((double)(p1.y()-p2.y()));
+    double dz = abs((double)(p1.z()-p2.z()));
+
+    double go_3 = min(dx,min(dy,dz));
+
+    dx -= go_3;
+    dy -= go_3;
+    dz -= go_3;
+
+    double go_2 = dx + dy + dz - max(dx,max(dy,dz));
+
+    dx -= go_2;
+    dy -= go_2;
+    dz -= go_2;
+
+    double go_1 = max(dx,max(dy,dz));
+
+    return sqrt(3)*go_3 + sqrt(2)*go_2 + go_1;
 }
 
 void UV::AStar::getNeighbour(Vector3i cur, std::vector<Vector3i> &nlist, std::vector<double> &ncost)

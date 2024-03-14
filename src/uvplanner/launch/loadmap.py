@@ -29,7 +29,7 @@ def generate_launch_description():
         ]
     )
     configmap = TimerAction(
-        period=2.0,
+        period=5.0,
         actions=[
             ExecuteProcess(
                 cmd=[[
@@ -40,7 +40,7 @@ def generate_launch_description():
         ]
     )
     activemap = TimerAction(
-        period=2.0,
+        period=5.0,
         actions=[
             ExecuteProcess(
                 cmd=[[

@@ -59,16 +59,16 @@ void UvPlanner::subMapCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg
             if(msg->data.at(i*msg->info.width+j) == -1||
                 msg->data.at(i*msg->info.width+j) == 100)
             {
-                dmap[i*msg->info.width+j]=1;
+                dmap[j*msg->info.height+i]=1;
             }
             else
             {
-                dmap[i*msg->info.width+j]=0;
+                dmap[j*msg->info.height+i]=0;
             }
             
         }
     }
-    solver.setMap(dmap,msg->info.height,msg->info.width);
+    solver.setMap(dmap,msg->info.width,msg->info.height);
     solver.setScale(msg->info.resolution,msg->info.resolution);
     solver.setOri(msg->info.origin.position.x,
         msg->info.origin.position.y,
@@ -85,7 +85,10 @@ void UvPlanner::subGoalCallback(const geometry_msgs::msg::PoseStamped::SharedPtr
     inProgress = true;
     solver.reset();
     nav_msgs::msg::Path req;
+    req.header.frame_id="/map";
+    req.header.stamp = this->now();
     Vector3d goal(msg->pose.position.x,msg->pose.position.y,msg->pose.position.z);
+    RCLCPP_INFO(this->get_logger(),"[%f,%f,%f]->[%f,%f,%f]",lastGoal.x(),lastGoal.y(),lastGoal.z(),goal.x(),goal.y(),goal.z());
     if(solver.solve(lastGoal,goal))
     {
         req.poses.clear();

@@ -40,9 +40,9 @@ public:
     Vector3i cvtStatus2Index(Status & st)
     {
         Vector3i idx;
-        idx <<  int( st.x() / scaleLenth),
-                int( st.y() / scaleWidth),
-                int( st.z() / scaleHight);                  
+        idx <<  int( (st.x()-ori_x) / scaleLenth),
+                int( (st.y()-ori_y) / scaleWidth),
+                int( (st.z()-ori_z) / scaleHight);                  
   
         return idx;
     }
