@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 3.5)
-project(uvplanner)
+project(nav_test)
 
-set(CMAKE_CXX_STANDARD 17)
+# Default to C99
+if(NOT CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 99)
+endif()
+
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -11,7 +19,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(uvinterfaces REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -19,39 +26,13 @@ find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 
-include_directories(include/uvplanner)
+include_directories(include)
 
-# file(GLOB SOURCEFILE src/AStar.cpp)
-set(SOURCEFILE src/AStar.cpp src/UvPlanner.cpp src/uvplanner_node.cpp)
-set(TESTFILE src/AStar.cpp src/UvPlanner.cpp src/test_node.cpp)
-
-add_executable(uvplanner_node ${SOURCEFILE})
+add_executable(testlll src/navtest.cpp)
 ament_target_dependencies(
-  uvplanner_node
+  testlll
   "rclcpp"
-  "std_msgs"
-  "geometry_msgs"
   "nav_msgs"
-)
-
-install(TARGETS
-  uvplanner_node
-  DESTINATION lib/${PROJECT_NAME})
-
-# add_executable(test_node ${TESTFILE})
-# ament_target_dependencies(
-#   test_node
-#   "rclcpp"
-#   "uvinterfaces"
-# )
-
-# install(TARGETS
-#   test_node
-#   DESTINATION lib/${PROJECT_NAME})
-
-install(DIRECTORY
-  launch map
-  DESTINATION share/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

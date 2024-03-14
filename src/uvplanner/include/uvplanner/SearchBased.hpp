@@ -20,7 +20,8 @@ class PathSearcher
 public:
     virtual void reset() = 0;
     virtual void setMap(uint8_t* pmap,int l,int w,int h=1) = 0;
-    virtual void setScale(double ls, double ws, double hs=1){scaleLenth=ls,scaleWidth=ws,scaleHight=hs;};
+    void setScale(double ls, double ws, double hs=1){scaleLenth=ls,scaleWidth=ws,scaleHight=hs;};
+    void setOri(double x, double y, double z){ori_x=x;ori_y=y;ori_z=z;};
     /*void setHeu(HeuFunction h){getHeu = h;};
     void setExpand(IExpandFunction e){getNeighbour = e;};*/
     //virtual void setObs(int x,int y,int z=0);
@@ -30,18 +31,18 @@ public:
     {
         Status st;
 
-        st.x() = ((double)index(0)) * scaleLenth;
-        st.y() = ((double)index(1)) * scaleWidth;
-        st.z() = ((double)index(2)) * scaleHight;
+        st.x() = ((double)index(0)) * scaleLenth + ori_x;
+        st.y() = ((double)index(1)) * scaleWidth + ori_y;
+        st.z() = ((double)index(2)) * scaleHight + ori_z;
 
         return st;
     }
     Vector3i cvtStatus2Index(Status & st)
     {
         Vector3i idx;
-        idx <<  int( st.x() * scaleLenth),
-                int( st.y() * scaleWidth),
-                int( st.z() * scaleHight);                  
+        idx <<  int( st.x() / scaleLenth),
+                int( st.y() / scaleWidth),
+                int( st.z() / scaleHight);                  
   
         return idx;
     }
@@ -50,6 +51,7 @@ public:
 protected:
     int mapLength=0,mapWidth=0,mapHight=0;
     double scaleLenth=1,scaleWidth=1,scaleHight=1;
+    double ori_x=0,ori_y=0,ori_z=0;
     /*HeuFunction getHeu;
     IExpandFunction getNeighbour;*/
     uint8_t* mapData=nullptr;

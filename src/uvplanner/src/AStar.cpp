@@ -53,8 +53,7 @@ bool AStar::solve(Status start, Status goal)
     AStarNodePtr startPtr = new AStarNode(startIndex);
     AStarNodePtr endPtr   = new AStarNode(endIndex);
     AStarNodePtr currentPtr = nullptr;
-    std::cout << startPtr->index << std::endl <<  std::endl;
-    std::cout << endPtr->index << std::endl <<  std::endl;
+    
     startPtr -> gScore = 0;
     startPtr -> fScore = getHeu(startPtr->index,endPtr->index);
     startPtr -> flag = 1; 
