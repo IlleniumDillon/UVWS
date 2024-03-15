@@ -17,7 +17,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
     mapfile = os.path.join(
-        get_package_share_directory('uvplanner'),'map/map_3011_20240311.yaml'
+        get_package_share_directory('uvplanner'),'map/mapdilated.yaml'
     )
     loadmap = Node(
         package='nav2_map_server',

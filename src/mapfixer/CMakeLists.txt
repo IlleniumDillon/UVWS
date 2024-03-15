@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(nav_test)
+project(mapfixer)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -25,14 +25,26 @@ find_package(std_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(nav2_map_server REQUIRED)
 
-include_directories(include)
+include_directories(include ${OpenCV_INCLUDE_DIRS}) 
 
-add_executable(testlll src/navtest.cpp)
+add_executable(mapfixer src/mapfixer_node.cpp)
+
 ament_target_dependencies(
-  testlll
+  mapfixer
   "rclcpp"
+  "std_msgs"
+  "geometry_msgs"
   "nav_msgs"
+  "OpenCV"
+  "nav2_map_server"
+)
+
+install(TARGETS
+  mapfixer
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
