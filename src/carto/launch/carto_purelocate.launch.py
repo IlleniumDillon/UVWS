@@ -6,6 +6,8 @@ from launch_ros.actions import Node, SetRemap
 from launch_ros.substitutions import FindPackageShare
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 import os
+from ament_index_python.packages import get_package_share_directory
+
 
 def generate_launch_description():
 
@@ -28,13 +30,16 @@ def generate_launch_description():
    #         {'use_sim_time': LaunchConfiguration('use_sim_time')}],
    #     output = 'screen'
    #     )
-
+    statefile = os.path.join(
+        get_package_share_directory('uvplanner'),'map/map_3011_20240311.pbstream'
+    )
     cartographer_node = Node(
         package = 'cartographer_ros',
         executable = 'cartographer_node',
         arguments = [
             '-configuration_directory', '/home/jetson/Desktop/project/ros2_test/src/carto/conf/',
-            '-configuration_basename', 'location.lua'],
+            '-configuration_basename', 'localization.lua',
+            '-load_state_filename',statefile],
         remappings = [
             ('scan', 'scan')],
         output = 'screen'
