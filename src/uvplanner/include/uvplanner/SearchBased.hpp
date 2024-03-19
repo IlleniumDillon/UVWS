@@ -62,3 +62,4 @@ public:
 } // namespace UV
 
 #include "AStar.hpp"
+#include "JPS.hpp"

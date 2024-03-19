@@ -21,7 +21,8 @@ public:
     void subGoalCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg);
     void subMapCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg);
 public:
-    UV::AStar solver;
+    //UV::AStar solver;
+    UV::JPS solver;
     Vector3d lastGoal;
     ///TODO:
     ///sub for map

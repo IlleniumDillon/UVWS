@@ -89,7 +89,12 @@ void UvPlanner::subGoalCallback(const geometry_msgs::msg::PoseStamped::SharedPtr
     req.header.stamp = this->now();
     Vector3d goal(msg->pose.position.x,msg->pose.position.y,msg->pose.position.z);
     RCLCPP_INFO(this->get_logger(),"[%f,%f,%f]->[%f,%f,%f]",lastGoal.x(),lastGoal.y(),lastGoal.z(),goal.x(),goal.y(),goal.z());
-    if(solver.solve(lastGoal,goal))
+    auto start = std::chrono::system_clock::now();
+    bool res = solver.solve(lastGoal,goal);
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double> diff = end - start;
+    RCLCPP_INFO(this->get_logger(),"cost time:%f",diff);
+    if(res)
     {
         req.poses.clear();
         for(int i = solver.path.size()-1; i >=0; i--)

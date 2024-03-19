@@ -23,9 +23,7 @@ find_package(OpenCV REQUIRED)
 include_directories(include/uvplanner)
 include_directories(${OpenCV_INCLUDE_DIRS}) 
 
-# file(GLOB SOURCEFILE src/AStar.cpp)
-set(SOURCEFILE src/AStar.cpp src/UvPlanner.cpp src/uvplanner_node.cpp)
-set(TESTFILE src/AStar.cpp src/UvPlanner.cpp src/test_node.cpp)
+file(GLOB SOURCEFILE src/*.cpp)
 
 add_executable(uvplanner_node ${SOURCEFILE})
 ament_target_dependencies(

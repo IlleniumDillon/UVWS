@@ -19,39 +19,21 @@ def generate_launch_description():
     mapfile = os.path.join(
         get_package_share_directory('uvplanner'),'map/mapdilated.yaml'
     )
-    loadmap = Node(
-        package='nav2_map_server',
-        executable='map_server',
-        arguments=[
-            '--ros-args',
-            '--param',
-            'yaml_filename:='+mapfile,
-        ]
-    )
-    configmap = TimerAction(
-        period=5.0,
-        actions=[
-            ExecuteProcess(
-                cmd=[[
-                    'ros2 lifecycle set /map_server configure'
-                ]],
-                shell=True
-            )
-        ]
-    )
-    activemap = TimerAction(
-        period=5.0,
-        actions=[
-            ExecuteProcess(
-                cmd=[[
-                    'ros2 lifecycle set /map_server activate'
-                ]],
-                shell=True
-            )
-        ]
-    )
+    mapserver =     Node(
+            package='nav2_map_server',
+            executable='map_server',
+            name='map_server',
+            output='screen',
+            parameters=[{'use_sim_time': False}, 
+                        {'yaml_filename':mapfile}])
+    lifecycle = Node(package='nav2_lifecycle_manager',
+                    executable='lifecycle_manager',
+                    name='lifecycle_manager_localization',
+                    output='screen',
+                    parameters=[{'use_sim_time': False},
+                                {'autostart': True},
+                                {'node_names': ['map_server']}])
     return LaunchDescription([
-        loadmap,
-        configmap,
-        activemap
+        mapserver,
+        lifecycle,
     ])
