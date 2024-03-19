@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(mapfixer)
+project(mapop)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -42,8 +42,20 @@ ament_target_dependencies(
   "nav2_map_server"
 )
 
+add_executable(mappublish src/mappublish_node.cpp)
+
+ament_target_dependencies(
+  mappublish
+  "rclcpp"
+  "std_msgs"
+  "geometry_msgs"
+  "nav_msgs"
+  "OpenCV"
+  "nav2_map_server"
+)
+
 install(TARGETS
-  mapfixer
+  mapfixer mappublish
   DESTINATION lib/${PROJECT_NAME}
 )
 
