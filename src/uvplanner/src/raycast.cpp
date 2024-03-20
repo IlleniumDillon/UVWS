@@ -1,4 +1,4 @@
-#include <Eigen/Eigen>
+#include <eigen3/Eigen/Eigen>
 #include <cmath>
 #include <iostream>
 #include "raycast.h"

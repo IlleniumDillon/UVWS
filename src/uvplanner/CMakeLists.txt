@@ -33,6 +33,7 @@ ament_target_dependencies(
   "geometry_msgs"
   "nav_msgs"
   "OpenCV"
+  "Eigen3"
 )
 
 install(TARGETS
