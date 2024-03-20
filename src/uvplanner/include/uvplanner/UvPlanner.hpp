@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SearchBased.hpp"
+#include "graph_searcher.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 //#include "uvinterfaces/srv/uv_pathplan.hpp"
@@ -21,7 +21,9 @@ public:
     void subGoalCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg);
     void subMapCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg);
 public:
-    UV::AStar solver;
+    //UV::AStar solver;
+    // UV::JPS solver;
+    gridPathFinder solver;
     Vector3d lastGoal;
     ///TODO:
     ///sub for map
