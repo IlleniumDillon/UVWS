@@ -20,12 +20,17 @@ find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
 
+# find_package(matplotlib_cpp REQUIRED)
+# find_package(Python3 COMPONENTS Development NumPy)
+
 include_directories(include/uvplanner)
 include_directories(${OpenCV_INCLUDE_DIRS}) 
 
 file(GLOB SOURCEFILE src/*.cpp)
 
 add_executable(uvplanner_node ${SOURCEFILE})
+# target_include_directories(uvplanner_node PRIVATE ${Python2_INCLUDE_DIRS} ${Python2_NumPy_INCLUDE_DIRS} lib)
+# target_link_libraries(uvplanner_node Python3::Python Python3::NumPy)
 ament_target_dependencies(
   uvplanner_node
   "rclcpp"

@@ -46,6 +46,7 @@ public:
     int mapX=10,mapY=10,mapZ=1;
     double resolution;
     double inv_resolution;
+    double min_double = 0.0000001;
     //xyz顺序
     uint8_t* mapData=nullptr;
 
@@ -79,7 +80,7 @@ public:
     RRT_Node* Sample();
     RRT_Node* Near(RRT_Node* x_rand);
     RRT_Node* Step(RRT_Node* x_rand, RRT_Node* x_near);
-    bool CollisionFree(RRT_Node* x_new, RRT_Node* x_near);
+    bool CollisionFree( RRT_Node* x_near,RRT_Node* x_new);
     void AddNode(RRT_Node* x_new, RRT_Node* x_father);
     bool SuccessCheck(RRT_Node* x_new);
 
@@ -89,7 +90,12 @@ public:
 
     Vector3d rviz2map(const Vector3d& pt) const;
 
+    double res_distance(double p,double direction);
+    void fixInMap(Eigen::Vector3d& new_node);
+
 };
+
+
 
 }
 

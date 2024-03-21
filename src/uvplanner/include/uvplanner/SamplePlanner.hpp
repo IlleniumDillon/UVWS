@@ -1,7 +1,7 @@
 #pragma once
 
 #include "rclcpp/rclcpp.hpp"
-
+#include "opencv4/opencv2/opencv.hpp"
 #include "nav_msgs/msg/path.hpp"
 #include "nav_msgs/msg/occupancy_grid.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"

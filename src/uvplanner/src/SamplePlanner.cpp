@@ -1,5 +1,7 @@
 #include "SamplePlanner.hpp"
+// #include "matplotlibcpp.h"
 using namespace Eigen;
+
 UvPlannerSample::UvPlannerSample():Node("uvplanner_node")
 {
     lastGoal = Vector3d(0,0,0);
@@ -40,11 +42,17 @@ void UvPlannerSample::subMapCallback(const nav_msgs::msg::OccupancyGrid::SharedP
             if(msg->data.at(i*msg->info.width+j) == -1||
                 msg->data.at(i*msg->info.width+j) == 100)
             {
-                solver.mapData[i*msg->info.width+j] = 1;
+                solver.mapData[j*solver.mapY+i] = 1;
+                // RCLCPP_INFO(this->get_logger(),"%d,%d",i,j);
             }
             
         }
     }
+    // cv::Mat testM = cv::Mat(solver.mapX,solver.mapY,CV_8UC1,solver.mapData);
+    // testM*=255;
+    // cv::imshow("img",testM);
+    // cv::waitKey(0);
+
     readyPlan = true;
 }
 void UvPlannerSample::subGoalCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
@@ -64,6 +72,14 @@ void UvPlannerSample::subGoalCallback(const geometry_msgs::msg::PoseStamped::Sha
     solver.ResetRRT(solver.rviz2map(lastGoal),solver.rviz2map(goal));
      
     RCLCPP_INFO(this->get_logger(),"reset");
+    RCLCPP_INFO(this->get_logger(),"goal: %f, %f",solver.goal_data.x()* solver.inv_resolution,solver.goal_data.y()* solver.inv_resolution);
+    // RCLCPP_INFO(this->get_logger(),"indx:%d",(int)floor(solver.goal_data.x())*solver.mapY + (int)floor(solver.goal_data.y()));
+    if(solver.mapData[(int)floor(solver.goal_data.x()* solver.inv_resolution)*solver.mapY + (int)floor(solver.goal_data.y()* solver.inv_resolution)]==0)
+    {
+        RCLCPP_INFO(this->get_logger(),"0");
+    }
+
+
 
     auto start = std::chrono::system_clock::now();
     auto path = solver.Planning();
