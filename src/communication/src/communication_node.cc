@@ -39,7 +39,7 @@ void CommunicationNode::timeCallBack()
 {
     communication.serialSetData();
     pub_status->publish(communication.status);
-    COM_INFO("yaw:%f",communication.status.yaw);
+    // COM_INFO("yaw:%f",communication.status.yaw);
 
 }
 void CommunicationNode::runSerialRead()

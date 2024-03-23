@@ -31,7 +31,7 @@ def generate_launch_description():
    #     output = 'screen'
    #     )
     statefile = os.path.join(
-        get_package_share_directory('uvplanner'),'map/map_3011_20240311.pbstream'
+        get_package_share_directory('uvplanner'),'map/map.pbstream'
     )
     cartographer_node = Node(
         package = 'cartographer_ros',
